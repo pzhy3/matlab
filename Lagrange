@@ -1,0 +1,29 @@
+function[F]=Lagrange(A)
+%A为N*2的矩阵
+    syms x
+    n=size(A,1);
+    %数据与x的差的连乘
+    for i=1:n
+       if i==1
+           f(x)=x-A(1,1);
+       else
+           f(x)=f(x)*(x-A(i,1));
+       end
+    end
+   %数据与其他数据的差的连乘
+    for i=1:n
+        x0=A([1:n],1);
+        p=x0(i);
+        x0(i)=[];
+        x0=p-x0;
+        st(i)=prod(x0);
+    end
+    %各个拉格朗日插值项的和
+    for i=1:n
+        if i==1
+            F(x)=A(1,2)*f(x)/(x-A(1,1))/st(i);
+        else
+            F(x)=F(x)+A(i,2)*f(x)/(x-A(i,1))/st(i);
+        end
+    end
+end
